@@ -161,6 +161,28 @@ def get_release_console_pokemon(wiki_text: str):
     match = get_match(infobox_text, pattern, error_text)
     return match.group("name")
 
+def get_director_pokemon(wiki_text: str):
+    
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(wiki_text)))
+    # print(infobox_text)
+    pattern = r"(?:Director|Director |Directors)(?P<name>\w+ \w+)Producers"
+    error_text = (
+        "Page infobox has no release game information"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+    return match.group("name")
+
+def get_artist_pokemon(wiki_text: str):
+    
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(wiki_text)))
+    # print(infobox_text)
+    pattern = r"(?:Artist)(?P<name>\w+ \w+)Writer"
+    error_text = (
+        "Page infobox has no artist information"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+    return match.group("name")
+
 # below are a set of actions. Each takes a list argument and returns a list of answers
 # according to the action and the argument. It is important that each function returns a
 # list of the answer(s) and not just the answer itself.
@@ -201,6 +223,19 @@ def release_console_pokemon(matches: List[str]) -> List[str]:
     
     return [get_release_console_pokemon(matches[0])]
 
+def director_pokemon(matches: List[str]) -> List[str]:
+
+
+    
+    return [get_director_pokemon(matches[0])]
+
+def artist_pokemon(matches: List[str]) -> List[str]:
+
+
+    
+    return [get_artist_pokemon(matches[0])]
+
+
 
 
 
@@ -221,6 +256,8 @@ pa_list: List[Tuple[Pattern, Action]] = [
     ("what is the polar radius of %".split(), polar_radius),
     ("who is the captain of %".split(), extract_infobox_captain),
     ("what console was % released on".split(), release_console_pokemon),
+    ("who is the director of %".split(), director_pokemon),
+    ("who is the artist of %".split(), artist_pokemon),
     (["bye"], bye_action)
 ]
 
