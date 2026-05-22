@@ -131,24 +131,6 @@ def get_birth_date(name: str) -> str:
     match = get_match(infobox_text, pattern, error_text)
 
     return match.group("birth")
-
-
-def get_extract_infobox_captain(wiki_text: str):
-    """
-    Extracts the volleyball team captain's name from Wikipedia.
-    Matches fields like:
-      | captain        = Name
-      | team_captain   = Name
-      | captain(s)     = Name
-    """
-    infobox_text = clean_text(get_first_infobox_text(get_page_html(wiki_text)))
-    print(infobox_text)
-    pattern = r"(?:Captain|Captain )(?P<name>\w+ \w+)League"
-    error_text = (
-        "Page infobox has no captain information"
-    )
-    match = get_match(infobox_text, pattern, error_text)
-    return match.group("name")
     
 def get_release_console_pokemon(wiki_text: str):
     
@@ -183,6 +165,28 @@ def get_artist_pokemon(wiki_text: str):
     match = get_match(infobox_text, pattern, error_text)
     return match.group("name")
 
+def get_writer_pokemon(wiki_text: str):
+    
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(wiki_text)))
+    # print(infobox_text)
+    pattern = r"(?:Writer)(?P<name>\w+ \w+)Composers"
+    error_text = (
+        "Page infobox has no writer information"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+    return match.group("name")
+
+def get_programmer_pokemon(wiki_text: str):
+    
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(wiki_text)))
+    # print(infobox_text)
+    pattern = r"(?:Programmer|Programmers)(?P<name>\w+ \w+)Artists|Artist"
+    error_text = (
+        "Page infobox has no writer information"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+    return match.group("name")
+
 # below are a set of actions. Each takes a list argument and returns a list of answers
 # according to the action and the argument. It is important that each function returns a
 # list of the answer(s) and not just the answer itself.
@@ -211,12 +215,6 @@ def polar_radius(matches: List[str]) -> List[str]:
     """
     return [get_polar_radius(matches[0])]
 
-def extract_infobox_captain(matches: List[str]) -> List[str]:
-
-
-    
-    return [get_extract_infobox_captain(matches[0])]
-
 def release_console_pokemon(matches: List[str]) -> List[str]:
 
 
@@ -234,6 +232,18 @@ def artist_pokemon(matches: List[str]) -> List[str]:
 
     
     return [get_artist_pokemon(matches[0])]
+
+def writer_pokemon(matches: List[str]) -> List[str]:
+
+
+    
+    return [get_writer_pokemon(matches[0])]
+
+def programmer_pokemon(matches: List[str]) -> List[str]:
+
+
+    
+    return [get_programmer_pokemon(matches[0])]
 
 
 
@@ -254,10 +264,11 @@ Action = Callable[[List[str]], List[Any]]
 pa_list: List[Tuple[Pattern, Action]] = [
     ("when was % born".split(), birth_date),
     ("what is the polar radius of %".split(), polar_radius),
-    ("who is the captain of %".split(), extract_infobox_captain),
     ("what console was % released on".split(), release_console_pokemon),
     ("who is the director of %".split(), director_pokemon),
     ("who is the artist of %".split(), artist_pokemon),
+    ("who is the writer of %".split(), writer_pokemon),
+    ("who is the programmer of %".split(), programmer_pokemon),
     (["bye"], bye_action)
 ]
 
