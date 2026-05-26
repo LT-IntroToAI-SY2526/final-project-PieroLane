@@ -187,6 +187,119 @@ def get_programmer_pokemon(wiki_text: str):
     match = get_match(infobox_text, pattern, error_text)
     return match.group("name")
 
+def get_pokemon_producers(pokemon: str) -> str:
+    """Gets death date of the given person
+
+    Args:
+        name - name of the person
+
+    Returns:
+        death date of the given person
+    """
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(pokemon)))
+    # print(infobox_text)
+    pattern = r"(?:producers|producer)(?P<producers>.*?)(?:designer)"
+    error_text = (
+        "Page infobox has no death information (at least none in xxxx-xx-xx format)"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+
+    return match.group("producers")
+
+def get_pokemon_composers(pokemon: str) -> str:
+    """Gets death date of the given person
+
+    Args:
+        name - name of the person
+
+    Returns:
+        death date of the given person
+    """
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(pokemon)))
+    # print(infobox_text)
+    pattern = r"(?:composers|composer)(?P<composers>.*?)(?:Pok)"
+    error_text = (
+        "Page infobox has no death information (at least none in xxxx-xx-xx format)"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+
+    return match.group("composers")
+
+def get_pokemon_designers(pokemon: str) -> str:
+    """Gets death date of the given person
+
+    Args:
+        name - name of the person
+
+    Returns:
+        death date of the given person
+    """
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(pokemon)))
+    # print(infobox_text)
+    pattern = r"(?:designers|designer)(?P<designers>.*?)(?:Programmer)"
+    error_text = (
+        "Page infobox has no death information (at least none in xxxx-xx-xx format)"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+
+    return match.group("designers")
+
+def get_pokemon_release(pokemon: str) -> str:
+    """Gets death date of the given person
+
+    Args:
+        name - name of the person
+
+    Returns:
+        death date of the given person
+    """
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(pokemon)))
+    # print(infobox_text)
+    pattern = r"(?:releases|release)(?P<release>.*?)(?:Genre)"
+    error_text = (
+        "Page infobox has no death information (at least none in xxxx-xx-xx format)"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+
+    return match.group("release")
+
+def get_pokemon_publisher(pokemon: str) -> str:
+    """Gets death date of the given person
+
+    Args:
+        name - name of the person
+
+    Returns:
+        death date of the given person
+    """
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(pokemon)))
+    # print(infobox_text)
+    pattern = r"(?:publishers|pubilsher)(?P<publishers>.*?)(?:director)"
+    error_text = (
+        "Page infobox has no death information (at least none in xxxx-xx-xx format)"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+
+    return match.group("publishers")
+
+def get_pokemon_genre(pokemon: str) -> str:
+    """Gets death date of the given person
+
+    Args:
+        name - name of the person
+
+    Returns:
+        death date of the given person
+    """
+    infobox_text = clean_text(get_first_infobox_text(get_page_html(pokemon)))
+    # print(infobox_text)
+    pattern = r"(?:genres|genre)(?P<genre>.*?)(?:mode)"
+    error_text = (
+        "Page infobox has no death information (at least none in xxxx-xx-xx format)"
+    )
+    match = get_match(infobox_text, pattern, error_text)
+
+    return match.group("genre")
 # below are a set of actions. Each takes a list argument and returns a list of answers
 # according to the action and the argument. It is important that each function returns a
 # list of the answer(s) and not just the answer itself.
@@ -245,9 +358,71 @@ def programmer_pokemon(matches: List[str]) -> List[str]:
     
     return [get_programmer_pokemon(matches[0])]
 
+def pokemon_producers(matches: List[str]) -> List[str]:
+    """Returns polar radius of planet in matches
 
+    Args:
+        matches - match from pattern of planet to find polar radius of
 
+    Returns:
+        polar radius of planet
+    """
+    return [get_pokemon_producers(matches[0])]
 
+def pokemon_composers(matches: List[str]) -> List[str]:
+    """Returns polar radius of planet in matches
+
+    Args:
+        matches - match from pattern of planet to find polar radius of
+
+    Returns:
+        polar radius of planet
+    """
+    return [get_pokemon_composers(matches[0])]
+
+def pokemon_designers(matches: List[str]) -> List[str]:
+    """Returns polar radius of planet in matches
+
+    Args:
+        matches - match from pattern of planet to find polar radius of
+
+    Returns:
+        polar radius of planet
+    """
+    return [get_pokemon_designers(matches[0])]
+
+def pokemon_release(matches: List[str]) -> List[str]:
+    """Returns polar radius of planet in matches
+
+    Args:
+        matches - match from pattern of planet to find polar radius of
+
+    Returns:
+        polar radius of planet
+    """
+    return [get_pokemon_release(matches[0])]
+
+def pokemon_publisher(matches: List[str]) -> List[str]:
+    """Returns polar radius of planet in matches
+
+    Args:
+        matches - match from pattern of planet to find polar radius of
+
+    Returns:
+        polar radius of planet
+    """
+    return [get_pokemon_publisher(matches[0])]
+
+def pokemon_genre(matches: List[str]) -> List[str]:
+    """Returns polar radius of planet in matches
+
+    Args:
+        matches - match from pattern of planet to find polar radius of
+
+    Returns:
+        polar radius of planet
+    """
+    return [get_pokemon_genre(matches[0])]
 
 # dummy argument is ignored and doesn't matter
 def bye_action(dummy: List[str]) -> None:
@@ -269,6 +444,12 @@ pa_list: List[Tuple[Pattern, Action]] = [
     ("who is the artist of %".split(), artist_pokemon),
     ("who is the writer of %".split(), writer_pokemon),
     ("who is the programmer of %".split(), programmer_pokemon),
+    ("who is the producer of %".split(), pokemon_producers),
+    ("who is the composer of %".split(), pokemon_composers),
+    ("who is the designer of %".split(), pokemon_designers),
+    ("when was % released".split(), pokemon_release),
+    ("who is the publisher of %".split(), pokemon_publisher),
+    ("what is the genre of %".split(), pokemon_genre),
     (["bye"], bye_action)
 ]
 
